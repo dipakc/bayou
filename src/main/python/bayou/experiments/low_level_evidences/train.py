@@ -54,6 +54,12 @@ Config options should be given as a JSON file (see config.json for example):
             "units": 32,                  | Size of the encoder hidden state
             "max_num": 10,                | Maximum number of this type of evidence
             "tile": 1                     | Repeat the encoding n times (to boost its signal)
+        },                                |
+        {                                 |
+            "name": "keywords",           | Name of evidence ("keywords")
+            "units": 64,                  | Size of the encoder hidden state
+            "max_num": 10,                | Maximum number of this type of evidence
+            "tile": 1                     | Repeat the encoding n times (to boost its signal)
         }                                 |
     ],                                    |
     "decoder": {                          | Provide parameters for the decoder here
@@ -132,7 +138,7 @@ def train(clargs):
                            np.mean(mean),
                            np.mean(covariance),
                            end - start))
-            checkpoint_dir = os.path.join(clargs.save, 'model.ckpt')
+            checkpoint_dir = os.path.join(clargs.save, 'model{}.ckpt'.format(i))
             saver.save(sess, checkpoint_dir)
             print('Model checkpointed: {}. Average for epoch evidence: {:.3f}, latent: {:.3f}, '
                   'generation: {:.3f}, loss: {:.3f}'.format
